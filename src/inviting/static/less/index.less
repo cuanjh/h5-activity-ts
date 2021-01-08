@@ -1,0 +1,190 @@
+html, body {
+  font-family: "PingFang SC";
+}
+
+.container {
+  position: relative;
+  height: 1602px;
+  width: 750px;
+  margin: 0 auto;
+  background-image: url('../image/bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.top-bar {
+  box-sizing: border-box;
+  position: fixed;
+  width: 750px;
+  top: 0;
+  padding: 80px 0 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0);
+  z-index: 1;
+  i {
+    position: absolute;
+    left: 50px;
+    width: 18px;
+    height: 32px;
+    background-image: url('../image/icon-back.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: invert(0);
+    transition: all .3s linear;
+  }
+  .top-bar-title {
+    font-size: 30px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0px;
+    transition: all .3s linear;
+  }
+}
+
+.scroll {
+  i {
+    filter: invert(1);
+  }
+  .top-bar-title {
+    color: rgba(0, 0, 0, 1);
+  }
+}
+
+.title {
+  position: absolute;
+  width: 750px;
+  top: 200px;
+  .title-wrap {
+    width: 652px;
+    font-size: 56px;
+    margin: 0 auto;
+    color: #ffffff;
+    font-weight: bolder;
+    text-shadow: 0 8px 2px rgba(0, 0, 0, .1);
+  }
+}
+
+.card {
+  position: absolute;
+  width: 750px;
+  top: 342px;
+  .card-wrap {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items: center;
+    .price {
+      margin-top: 78px;
+    }
+    .btn-inviting {
+      margin-top: 188px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      width: 372px;
+      height: 84px;
+      background: linear-gradient(180deg,#f1e3a0, #f7c46c);
+      border: 0 solid;
+      border-image: linear-gradient(180deg, #f7e8bc, #eeb04a 100%) 0.8471891657830524 0.8471891657830524;
+      border-radius: 42px;
+      box-shadow: 0px 10px 40px 0px rgba(130,0,2,0.47), 0px 8px 0px 0px rgba(209,71,40,0.97); 
+      font-size: 40px;
+      font-weight: 600;
+      color: #c00b07;
+      line-height: 56px;
+      letter-spacing: 0px;
+      cursor: pointer;
+      transition: all .3s linear;
+      &:active {
+        transform: translateY(5px);
+        -webkit-transform: translateY(5px);
+      }
+    }
+    .count-down {
+      margin-top: 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .desc {
+        font-size: 24px;
+        font-weight: 700;
+        color: #f7dcd8;
+        line-height: 34px;
+        letter-spacing: 0px;
+      }
+      .timer {
+        margin-top: 24px;
+        color: #f7dcd8;
+        font-size: 24px;
+        span {
+          box-sizing: border-box;
+          min-width: 60px;
+          background: #f7dcd8;
+          border-radius: 8px;
+          font-weight: 700;
+          color: #d53630;
+          line-height: 17px;
+          letter-spacing: 0px;
+          padding: 6px 12px;
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+}
+
+.p-198 {
+  width: 282px;
+  height: 102px;
+  margin-left: 40px;
+  background-image: url('../image/198.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.introduction {
+  position: absolute;
+  width: 750px;
+  top: 1098px;
+  .intro-wrap {
+    width: 670px;
+    height: 404px;
+    margin: 0 auto;
+    .list {
+      padding-left: 50px;
+      padding-top: 104px;
+      padding-right: 60px;
+      .item {
+        display: flex;
+        flex-direction: row;
+        &:nth-child(1) {
+          margin-bottom: 52px;
+        }
+        &:nth-child(2) {
+          margin-bottom: 40px;
+        }
+        i {
+          margin-right: 38px;
+          margin-top: 4px;
+          width: 26px;
+          height: 26px;
+          min-width: 26px;
+          background-image: url('../image/icon-intro.png');
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+        span {
+          font-size: 26px;
+          font-weight: 400;
+          color: #76706b;
+          line-height: 36px;
+          letter-spacing: 0px;
+        }
+      }
+    }
+  }
+}

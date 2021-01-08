@@ -29,18 +29,18 @@ function clean() {
 function css() {
   // console.log('css');
   const processors = [px2rem({ remUnit: 75 })];
-  return src(`./src/${name}/less/*.less`)
+  return src(`./src/${name}/static/less/*.less`)
   .pipe(less())
   .pipe(postcss(processors))
   .pipe(uglifycss())
-  .pipe(dest(`./dist/css`));
+  .pipe(dest(`./dist/static/css`));
 }
 
 // 构建图片
 function image() {
-  return src(`./src/${name}/image/*`)
+  return src(`./src/${name}/static/image/*`)
   .pipe(imagemin())
-  .pipe(dest(`./dist/image`));
+  .pipe(dest(`./dist/static/image`));
 }
 
 // 构建typescript
@@ -49,29 +49,29 @@ function js() {
   return browserify({
     basedir: '.',
     debug: true,
-    entries: [`src/${name}/ts/index.ts`]
+    entries: [`src/${name}/static/ts/index.ts`]
   })
-  .plugin(tsify)
+  .plugin(tsify, { target: 'es5' })
   .bundle()
   .pipe(source('index.min.js'))
   .pipe(buffer())
   .pipe(sourcemaps.init({loadMaps: true}))
   .pipe(uglify())
   .pipe(sourcemaps.write('./'))
-  .pipe(dest(`./dist/js`));
+  .pipe(dest(`./dist/static/js`));
 }
 
 // copy 插件
 function copylib () {
-  return src(`./src/${name}/lib/**/*.js`)
+  return src(`./src/${name}/static/lib/**/*.js`)
     .pipe(uglify())
-    .pipe(dest(`./dist/lib`))
+    .pipe(dest(`./dist/static/lib`))
 }
 
 // copy html
 function copyHtml() {
   // console.log('copyHtml')
-  const sources = src([`./dist/js/*.js`, `./dist/css/*.css`], {read: false});
+  const sources = src([`./dist/static/js/*.js`, `./dist/static/css/*.css`], {read: false});
   return src([`src/${name}/*.html`]).pipe(inject(sources, {
     transform: (filepath) => {
       const url = filepath.replace(`/dist`, '.') + '?v=' + (new Date()).getTime();
@@ -86,7 +86,7 @@ function copyHtml() {
 
 // web serve
 function webserve() {
-  const server = gls.static('dist', 8891)
+  const server = gls.static('dist')
   server.start();
 
   /**
@@ -104,19 +104,19 @@ function webserve() {
  * 监控文件修改, 构建发布的时候不需要监控文件修改
  */
 if (command !== 'build') {
-  const watcherjs = watch(`src/${name}/ts/**/*.ts`);
+  const watcherjs = watch(`src/${name}/static/ts/**/*.ts`);
   watcherjs.on('all', (event, file) => {
     console.log(event, file);
     js();
   });
 
-  const watchercss = watch(`src/${name}/less/**/*.less`);
+  const watchercss = watch(`src/${name}/static/less/**/*.less`);
   watchercss.on('all', (event, file) => {
     console.log(event, file);
     css();
   });
 
-  const watcherimage = watch(`src/${name}/image/**/*`);
+  const watcherimage = watch(`src/${name}/static/image/**/*`);
   watcherimage.on('all', (event, file) => {
     console.log(event, file);
     image();

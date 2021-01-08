@@ -3,15 +3,82 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="./lib/flexible/flexible_css.debug.js"></script>
-  <script src="./lib/flexible/flexible.debug.js"></script>
+  <script src="./static/lib/flexible/flexible_css.debug.js"></script>
+  <script src="./static/lib/flexible/flexible.debug.js"></script>
+  <script src="./static/lib/md5/md5.js"></script>
   <!-- inject:css -->
   <!-- endinject-->
-  <title>Hello World!</title>
+  <title>幸运轮盘</title>
 </head>
 <body>
-  <p id="greeting">Loading ...</p>
-  <div>abc</div>
+  <div class="container">
+    <div class="close">
+      <i class="icon-close"></i>
+    </div>
+    <div class="award-infos">
+      <!-- <p>
+        <span>恭喜 用户：3671959 获得</span>
+        <span>1个月会员PLUS</span>
+      </p>
+      <p>
+        <span>恭喜 用户：3671958 获得</span>
+        <span>1000元满减券</span>
+      </p>
+      <p>
+        <span>恭喜 用户：3671950 获得</span>
+        <span>800元现金券</span>
+      </p> -->
+    </div>
+    <div class="coupons">
+      <div class="coupons-wrap">
+        <div class="tracks">
+        </div>
+        <div class="shadow-up"></div>
+        <div class="shadow-down"></div>
+        <div class="arrow-left"></div>
+        <div class="arrow-right"></div>
+      </div>
+    </div>
+    <div class="btn-draw">
+      <div class="btn">
+        <div id="btnDraw"></div>
+        <div id="btnDrawDisabled"></div>
+      </div>
+    </div>
+    <div class="draw-num">
+      <div class="num">
+        你有<span id="drawNum">3</span>次抽奖机会
+      </div>
+    </div>
+    <div class="description">
+      <div class="title"></div>
+      <ul>
+        <li>1、每人每周有3次免费抽奖机会</li>
+        <li>2、本活动最终解释权归于北京酷语时代教育科技有限公司</li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal">
+    <div class="modal-wrap">
+      <div class="congratulation">
+        <div class="shine">
+          <img src="./static/image/shine.png" alt="" srcset="">
+        </div>
+        <div class="reward-info">
+          <div id="ticket" class="ticket"></div>
+          <div class="info">
+            <p>恭喜你获得</p>
+            <p id="ticketType"></p>
+            <p>已放置“钱包-优惠券”中</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="tips">
+    <div class="tip">
+    </div>
+  </div>
   <!-- inject:js -->
   <!-- endinject -->
 </body>

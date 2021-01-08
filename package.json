@@ -4,8 +4,8 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "dev": "gulp --name luckyDraw --command dev",
-    "build": "gulp --name luckyDraw --command build",
+    "dev": "gulp --name inviting --command dev",
+    "build": "gulp --name inviting --command build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

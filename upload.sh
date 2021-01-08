@@ -1,5 +1,5 @@
 #!/bin/sh
-folder="luckyDraw"
+folder="inviting"
 echo $folder
 echo "start build..."
 gulp --name $folder --command build
