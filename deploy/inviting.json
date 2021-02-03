@@ -1,6 +1,6 @@
 {
   "src_dir":"/Users/talkmate/Documents/gitlab/h5-activity-ts/dist/",
-  "key_prefix":"activities/inviting/",
+  "key_prefix":"operate/activities/html/inviting/",
   "bucket":"mobilestatic",
   "overwrite":true,
   "rescan_local":true

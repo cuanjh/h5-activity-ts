@@ -1,6 +1,5 @@
-html, body {
-  font-family: "PingFang SC";
-}
+@import './reset.less';
+
 .container {
   position: relative;
   height: 1560px;
@@ -16,6 +15,7 @@ html, body {
   position: absolute;
   top: 118px;
   left: 38px;
+  display: none;
   .icon-close {
     display: inline-block;
     width: 30px;
@@ -76,8 +76,8 @@ html, body {
       .track {
         display: flex;
         flex-direction: column;
-        transition: all 8s ease-in-out;
-        -webkit-transition: all 8s ease-in-out;
+        transition: all 7s ease-in-out;
+        -webkit-transition: all 7s ease-in-out;
         .track-item {
           display: flex;
           flex-direction: column;
@@ -91,6 +91,7 @@ html, body {
             justify-content: center;
             width: 136px;
             height: 90px;
+            min-height: 90px;
             background-image: url('../image/card.png');
             background-size: cover;
             background-repeat: no-repeat;
@@ -102,7 +103,8 @@ html, body {
             .manjian {
               font-size: 22px;
               line-height: 24px;
-              width: 80px;
+              width: 118px;
+              text-align: center;
             }
           }
           .ticket-type {
@@ -306,6 +308,7 @@ html, body {
     .manjian {
       font-size: 36px;
       line-height: 40px;
+      text-align: center;
     }
   }
 }
@@ -322,7 +325,10 @@ html, body {
 .tips {
   position: fixed;
   width: 750px;
+  margin: 0 auto;
   top: 608px;
+  left: 0;
+  right: 0;
   display: none;
   transition: all .3s linear;
   .tip {

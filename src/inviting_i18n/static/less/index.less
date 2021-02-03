@@ -1,6 +1,4 @@
-html, body {
-  font-family: "PingFang SC";
-}
+@import './reset.less';
 
 .container {
   position: relative;
@@ -24,6 +22,7 @@ html, body {
   justify-content: center;
   background: rgba(255, 255, 255, 0);
   z-index: 1;
+  display: none;
   i {
     position: absolute;
     left: 50px;
@@ -56,7 +55,7 @@ html, body {
 .title {
   position: absolute;
   width: 750px;
-  top: 150px;
+  top: 100px;
   .title-wrap {
     text-align: center;
     width: 652px;
@@ -322,11 +321,14 @@ html, body {
   position: fixed;
   width: 750px;
   top: 608px;
+  left: 0;
+  right: 0;
   display: none;
   transition: all .3s linear;
+  text-align: center;
   z-index: 100;
   .tip {
-    width: 434px;
+    min-width: 434px;
     height: 114px;
     margin: 0 auto;
     background: rgba(0,0,0,.6);
@@ -335,10 +337,11 @@ html, body {
     font-weight: 500;
     color: #ffffff;
     line-height: 32px;
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    padding: 0 20px;
   }
 }
 

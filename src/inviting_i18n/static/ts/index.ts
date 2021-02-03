@@ -1,9 +1,17 @@
 import { setupWebViewJavascriptBridge } from './bridge';
 import { config } from './config';
+import { request } from './request';
 
 console.log(config);
+const errorCodes = {
+  '1001': 'The data cannot be empty',
+  '200001': "The user has been invited already"
+};
 
 class Activity {
+  deviceId: string;
+  userId: string;
+  verify: string;
   price: number;
   endYear: number;
   endMonth: number;
@@ -13,7 +21,9 @@ class Activity {
   eleForm: HTMLElement; eleEmail: HTMLElement; eleSend: HTMLElement; eleSendSuccessful:HTMLElement; eleSuccessfulDesc: HTMLElement;
   eleOk: HTMLElement; eleTopbar: HTMLElement; eleBack: HTMLElement;
   constructor() {
-    this.price = 199.99;
+    this.deviceId = config.deviceId ? config.deviceId : '3394eda119c4450fad3f569ca3fdc4fb'
+    this.userId = config.userId ? config.userId : '5ed9a7d13f34183fb701a452'
+    this.price = config.price ? parseInt(config.price) : 199.99;
     this.endYear = 2021;
     this.endMonth = 3;
     this.endDay = 25;
@@ -55,17 +65,22 @@ class Activity {
   // 初始化按钮点击事件
   initEvent() {
     // 页面滚动事件
-    document.addEventListener('scroll', (e) => {
-      let top = e.target['scrollingElement']['scrollTop']
-      if (0.01 * top > 0.9) {
-        this.eleTopbar.classList.add('scroll');
-      } else {
-        this.eleTopbar.classList.remove('scroll');
-      }
-      this.eleTopbar.setAttribute('style', `background: rgba(255, 255, 255, ${0.01 * top > 1 ? 1 : 0.01 * top})`);
-      console.log(e.target['scrollingElement']['scrollTop']);
-    });
+    // document.addEventListener('scroll', (e) => {
+    //   let top = e.target['scrollingElement']['scrollTop']
+    //   if (0.01 * top > 0.9) {
+    //     this.eleTopbar.classList.add('scroll');
+    //   } else {
+    //     this.eleTopbar.classList.remove('scroll');
+    //   }
+    //   this.eleTopbar.setAttribute('style', `background: rgba(255, 255, 255, ${0.01 * top > 1 ? 1 : 0.01 * top})`);
+    //   console.log(e.target['scrollingElement']['scrollTop']);
+    // });
 
+    this.eleModal.addEventListener('click', (e) => {
+      if (!(e.target['classList'].contains('form') || e.target['classList'].contains('send-successful') || e.target['parentNode']['classList'].contains('form') || e.target['parentNode']['classList'].contains('send-successful'))) {
+        this.hideModal();
+      }
+    })
     // 立即邀请
     this.eleBtnInviting.addEventListener('click', (e) => {
       this.showModal();
@@ -84,7 +99,7 @@ class Activity {
     // 发送邮箱事件
     this.eleSend.addEventListener('click', (e) => {
       if (this.eleSend.classList.contains('complete')) {
-        this.sendEmail();
+        this.sendEmail(this.eleEmail['value']);
       }
     });
 
@@ -99,15 +114,28 @@ class Activity {
     });
   }
 
-  // 发送邮箱
-  sendEmail() {
-    if (true) {
+  // 领取会员
+  sendEmail(email) {
+    request({
+      url: '/acv1/invite/register',
+      type: 'jsonp',
+      data: {
+        device_id: this.deviceId,
+        user_id: this.userId,
+        verify: this.verify,
+        email: email,
+        assort: '',
+        activity_name: '邀请有礼'
+      }
+    }).then(res => {
       this.eleForm.classList.remove('show');
       setTimeout(() => {
         this.eleSuccessfulDesc.innerHTML = `Remind your friend to check email and download Talkmate App. Enter activation key, each of you will get $${this.price} ${this.cardType(this.price)} VIP plus card.`
         this.eleSendSuccessful.classList.add('show');
       }, 100);
-    }
+    }).catch(errCode => {
+      this.showTips(errorCodes[errCode]);
+    });
   }
 
   // 设置标题

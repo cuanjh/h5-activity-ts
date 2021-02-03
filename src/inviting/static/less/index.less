@@ -1,6 +1,4 @@
-html, body {
-  font-family: "PingFang SC";
-}
+@import './reset.less';
 
 .container {
   position: relative;
@@ -24,6 +22,7 @@ html, body {
   justify-content: center;
   background: rgba(255, 255, 255, 0);
   z-index: 1;
+  display: none;
   i {
     position: absolute;
     left: 50px;
@@ -56,9 +55,9 @@ html, body {
 .title {
   position: absolute;
   width: 750px;
-  top: 200px;
+  top: 140px;
   .title-wrap {
-    width: 652px;
+    text-align: center;
     font-size: 56px;
     margin: 0 auto;
     color: #ffffff;
@@ -117,20 +116,28 @@ html, body {
         letter-spacing: 0px;
       }
       .timer {
+        display: flex;
+        flex-direction: row;
         margin-top: 24px;
         color: #f7dcd8;
         font-size: 24px;
         span {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
           box-sizing: border-box;
-          min-width: 60px;
+          height: 46px;
           background: #f7dcd8;
           border-radius: 8px;
           font-weight: 700;
           color: #d53630;
-          line-height: 17px;
+          padding: 0 8px;
           letter-spacing: 0px;
-          padding: 6px 12px;
           margin: 0 10px;
+        }
+        .hour, .minute, .second {
+          width: 54px;
         }
       }
     }

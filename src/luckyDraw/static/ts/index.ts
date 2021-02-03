@@ -1,6 +1,5 @@
 import { config } from './config';
 import { setupWebViewJavascriptBridge } from './bridge';
-import { sayHello } from "./greet";
 import { request } from './request';
 import { shuffle, getRandomNum } from './utils';
 
@@ -10,36 +9,6 @@ const enum VoucherType {
   Discount = 'discount',
   Cash = 'cash'
 }
-
-const data = [
-  {
-    talkmateId: '3671959', reward: '1个月会员PLUS'
-  },
-  {
-    talkmateId: '3671958', reward: '1000元满减券'
-  },
-  {
-    talkmateId: '3671957', reward: '800元现金券'
-  },
-  {
-    talkmateId: '3671959', reward: '1个月会员PLUS'
-  },
-  {
-    talkmateId: '3671958', reward: '1000元满减券'
-  },
-  {
-    talkmateId: '3671957', reward: '800元现金券'
-  },
-  {
-    talkmateId: '3671959', reward: '1个月会员PLUS'
-  },
-  {
-    talkmateId: '3671958', reward: '1000元满减券'
-  },
-  {
-    talkmateId: '3671957', reward: '800元现金券'
-  }
-]
 
 class Activity {
   deviceId: string;
@@ -59,9 +28,9 @@ class Activity {
   eleBtnDrawDisabled; eleBtnDraw; eleDrawNum; eleModal; eleAwardInfos;
 
   constructor() {
-    this.deviceId = '3394eda119c4450fad3f569ca3fdc4fb'
-    this.userId = '5ed9a7d13f34183fb701a452'
-    this.verify = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJUYWxrbWF0ZSIsImV4cCI6MTYyMzMxMTY4MiwianRpIjoiNWVkOWE3ZDEzZjM0MTgzZmI3MDFhNDUyIn0._Mra9WMQ0sRO7-9mVuSuna3dPjWFrB621rgP3o1ULfU'
+    this.deviceId = config.deviceId ? config.deviceId : '3394eda119c4450fad3f569ca3fdc4fb'
+    this.userId = config.userId ? config.userId : '5ed9a7d13f34183fb701a452'
+    this.verify = config.verify ? config.verify :'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJUYWxrbWF0ZSIsImV4cCI6MTYyMzMxMTY4MiwianRpIjoiNWVkOWE3ZDEzZjM0MTgzZmI3MDFhNDUyIn0._Mra9WMQ0sRO7-9mVuSuna3dPjWFrB621rgP3o1ULfU'
     this.maxDrawNum = 3;
     this.drawNum = this.maxDrawNum;
     this.isDraw = false;
@@ -190,7 +159,12 @@ class Activity {
     this.eleClose.addEventListener('click', () => {
       console.log('close');
       this.close();
-    })
+    });
+
+    // 点击model隐藏
+    this.eleModal.addEventListener('click', () => {
+      this.hideModal();
+    });
   }
 
   // 优惠券列表
@@ -228,13 +202,14 @@ class Activity {
     let desc = '';
     switch (iterator.type) {
       case VoucherType.Discount:
-        desc = `${iterator['money'] * 10}折`
+        desc = `${iterator['money']}折`
         break;
       case VoucherType.Cash:
-        desc = `¥${iterator['money']}`
+        desc = `￥${iterator['money']}`
         break;
       default:
         desc = iterator['title']
+        desc = desc.replace('￥', '￥<br/>')
         break;
     }
     return desc;
@@ -321,7 +296,7 @@ class Activity {
     this.initRewardInfo();
     let counter = 0
     const interval = setInterval(() => {
-      counter += 0.051111;
+      counter += 0.031111;
       const children2 = this.eleAwardInfos.children
       for (let index = 0; index < children2.length; index++) {
         const element = children2[index];
@@ -377,7 +352,7 @@ class Activity {
       });
       setTimeout(() => {
         resolve(0)
-      }, 8500);
+      }, 7500);
     })
   }
 }

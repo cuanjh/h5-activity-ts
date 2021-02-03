@@ -1,9 +1,17 @@
+import { request } from './request';
 import { setupWebViewJavascriptBridge } from './bridge';
 import { config } from './config';
+import { getWXToken } from './wxShare';
 
 console.log(config);
+const errorCodes = {
+  '1001': '数据不能为空',
+  '200001': '已经被邀请过了'
+};
 
 class Activity {
+  deviceId: string;
+  userId: string;
   nickname: string;
   price: number;
   endYear: number;
@@ -13,8 +21,10 @@ class Activity {
   eleBtnInviting; eleTips; eleTip; eleModal; eleRewardPrice; eleBtnEntryTalkmate;
   eleClose;
   constructor() {
-    this.nickname = 'Jack';
-    this.price = 198;
+    this.deviceId = config.deviceId ? config.deviceId : '3394eda119c4450fad3f569ca3fdc4fb'
+    this.userId = config.userId ? config.userId : '5ed9a7d13f34183fb701a452'
+    this.price = config.price ? parseInt(config.price) : 198;
+    this.nickname = config.nickname ? config.nickname : '';
     this.endYear = 2021;
     this.endMonth = 3;
     this.endDay = 25;
@@ -34,6 +44,11 @@ class Activity {
     console.log('constructor');
   }
   init() {
+    // 二次分享处理，由于测试环境域名含有端口号，测试无效
+    getWXToken({
+      title: `${this.nickname}邀你一起领取${this.price}元全球说会员PLUS`,
+      desc: '邀请好友注册全球说，得会员大奖'
+    })
     // 初始化事件
     this.initEvent();
     // 设置标题
@@ -62,7 +77,7 @@ class Activity {
         if (!reg.test(phone)) {
           this.showTips('手机号格式不正确');
         } else {
-          this.showModal();
+          this.invitedRegister(phone);
         }
       }
     });
@@ -75,11 +90,31 @@ class Activity {
     })
   }
 
+  // 领取会员
+  invitedRegister(phone) {
+    request({
+      url: '/acv1/invite/register',
+      type: 'jsonp',
+      data: {
+        device_id: this.deviceId,
+        user_id: this.userId,
+        verify: '',
+        phonenumber: phone,
+        assort: 'cn',
+        activity_name: '邀请有礼'
+      }
+    }).then(res => {
+      this.showModal();
+    }).catch(errCode => {
+      this.showTips(errorCodes[errCode])
+    });
+  }
+
   // 设置标题
   setTitle() {
     this.eleTitleWrap.innerHTML = `
-      <p>${this.nickname}邀请你注册全球说</p>
-      <p>各得<span>${this.price}</span>元会员PLUS</p>
+      <p><span class="spanNickname">${this.nickname}</span>邀请你注册全球说</p>
+      <p>各得<span class="spanPrice">${this.price}</span>元会员PLUS</p>
     `;
   }
 
@@ -135,28 +170,6 @@ class Activity {
     this.eleIntroWrap.innerHTML = intro;
   }
 
-  // 立即邀请分享
-  share() {
-    console.log('share');
-    const shareConfig = {
-      title: 'xx邀你一起领取198元全球说会员PLUS',
-      digest: '邀请好友注册全球说，得会员大奖',
-      thumbnail: '',
-      url: '',
-      isLogin: 1
-    }
-    if (config.isIPhone) {
-      setupWebViewJavascriptBridge((bridge) => {
-        bridge.callHandler('callbackShare', shareConfig);
-        bridge.registerHandler('iosIsSharesuccess', function (userInfo, responseCallback) {
-        })
-      })
-    }
-    if (config.isAndroid) {
-      (<any>window).androidObj.callbackShare(shareConfig.title, shareConfig.digest, shareConfig.thumbnail, shareConfig.url);
-    }
-  }
-
   // 显示提示窗
   showTips(desc:string) {
     this.eleTip.innerHTML = desc;
@@ -173,14 +186,6 @@ class Activity {
 
   // 显示模态窗
   showModal() {
-    // this.eleTicket.innerHTML = this.rewardDesc(this.drawReward);
-    // if (this.drawReward.type === VoucherType.OverPay) {
-    //   this.eleTicket.classList.add('manjian')
-    // } else {
-    //   this.eleTicket.classList.remove('manjian')
-    // }
-    // let type = this.typeDesc(this.drawReward.type)
-    // this.eleTicketType.innerHTML = `${type}x1`
     this.eleRewardPrice.classList.add(this.priceCls());
     const htmlStyle = this.eleHtml.getAttribute('style')
     this.eleHtml.setAttribute('style', `${htmlStyle}overflow-y:hidden;`);
@@ -189,8 +194,6 @@ class Activity {
 
   // 隐藏模态窗
   hideModal() {
-    // this.isDraw = false
-    // this.eleBtnDrawDisabled.classList.remove('show')
     this.eleModal.classList.remove('show')
     const htmlStyle = this.eleHtml.getAttribute('style')
     this.eleHtml.setAttribute('style', `${htmlStyle}overflow-y:scroll;`);

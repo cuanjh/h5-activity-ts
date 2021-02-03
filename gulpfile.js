@@ -8,6 +8,7 @@ const less = require('gulp-less');
 const postcss = require('gulp-postcss');
 const px2rem = require('postcss-px2rem');
 const uglify = require('gulp-uglify');
+const stripDebug = require('gulp-strip-debug');
 const sourcemaps = require('gulp-sourcemaps');
 const uglifycss = require('gulp-uglifycss');
 const imagemin = require('gulp-imagemin');
@@ -19,6 +20,14 @@ const del = require('del');
 const argv = require('minimist')(process.argv.slice(2));
 const name = argv.name;
 const command = argv.command;
+const env = argv.env;
+
+function setEnv(cb) {
+  fs.writeFile(`./src/${name}/static/ts/env.ts`, 'export let env = "' + env + '";', function(err){
+    err && console.log(err);
+  });
+  return cb()
+}
 
 // 删除构建目录
 function clean() {
@@ -29,7 +38,7 @@ function clean() {
 function css() {
   // console.log('css');
   const processors = [px2rem({ remUnit: 75 })];
-  return src(`./src/${name}/static/less/*.less`)
+  return src(`./src/${name}/static/less/index.less`)
   .pipe(less())
   .pipe(postcss(processors))
   .pipe(uglifycss())
@@ -46,19 +55,36 @@ function image() {
 // 构建typescript
 function js() {
   // console.log('js')
-  return browserify({
-    basedir: '.',
-    debug: true,
-    entries: [`src/${name}/static/ts/index.ts`]
-  })
-  .plugin(tsify, { target: 'es5' })
-  .bundle()
-  .pipe(source('index.min.js'))
-  .pipe(buffer())
-  .pipe(sourcemaps.init({loadMaps: true}))
-  .pipe(uglify())
-  .pipe(sourcemaps.write('./'))
-  .pipe(dest(`./dist/static/js`));
+  if (command == 'build') {
+    return browserify({
+      basedir: '.',
+      debug: true,
+      entries: [`src/${name}/static/ts/index.ts`]
+    })
+    .plugin(tsify, { target: 'es5' })
+    .bundle()
+    .pipe(source('index.min.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(stripDebug())
+    .pipe(uglify())
+    .pipe(sourcemaps.write('./'))
+    .pipe(dest(`./dist/static/js`));
+  } else {
+    return browserify({
+      basedir: '.',
+      debug: true,
+      entries: [`src/${name}/static/ts/index.ts`]
+    })
+    .plugin(tsify, { target: 'es5' })
+    .bundle()
+    .pipe(source('index.min.js'))
+    .pipe(buffer())
+    .pipe(sourcemaps.init({loadMaps: true}))
+    .pipe(uglify())
+    .pipe(sourcemaps.write('./'))
+    .pipe(dest(`./dist/static/js`));
+  }
 }
 
 // copy 插件
@@ -134,9 +160,9 @@ const build = series(parallel(image, js, css, copylib), copyHtml);
 // 条件判断默认task
 if (fs.existsSync(`src/${name}`)) {
   if (command === 'build') {
-    exports.default = series(clean, build);
+    exports.default = series(setEnv, clean, build);
   } else {
-    exports.default = series(clean, build, webserve);
+    exports.default = series(setEnv, clean, build, webserve);
   }
 } else {
   exports.default = (cb) => {

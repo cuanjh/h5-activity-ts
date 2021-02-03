@@ -39,3 +39,11 @@ export const shuffle = (data: any[]) => {
 export const getRandomNum = (num: number) => {
   return Math.floor(Math.random() * num)
 }
+
+// 解析页面路径参数
+export const getUrlParam = (name: string) => {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return decodeURIComponent(r[2]);
+  return null;
+}
