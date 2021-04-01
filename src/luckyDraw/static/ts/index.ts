@@ -29,7 +29,7 @@ class Activity {
 
   constructor() {
     this.deviceId = config.deviceId ? config.deviceId : '3394eda119c4450fad3f569ca3fdc4fb'
-    this.userId = config.userId ? config.userId : '5ed9a7d13f34183fb701a452'
+    this.userId = config.userId ? config.userId : '5ed9a7d13f34183fb701a4521'
     this.verify = config.verify ? config.verify :'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJUYWxrbWF0ZSIsImV4cCI6MTYyMzMxMTY4MiwianRpIjoiNWVkOWE3ZDEzZjM0MTgzZmI3MDFhNDUyIn0._Mra9WMQ0sRO7-9mVuSuna3dPjWFrB621rgP3o1ULfU'
     this.maxDrawNum = 3;
     this.drawNum = this.maxDrawNum;
@@ -280,6 +280,7 @@ class Activity {
   async initRewardInfo() {
     let res = await this.getRewardList();
     console.log(res);
+    if (!res['recordsList']) return
     let pTag = '';
     for (const iterator of res['recordsList']) {
       pTag += `
@@ -348,11 +349,11 @@ class Activity {
         setTimeout(() => {
           let counter = (num + 12) * 3.413333
           tracks[ele].setAttribute('style', `transform:translateY(-${counter}rem)`)
-        }, ele * 100);
+        }, ele * 300);
       });
       setTimeout(() => {
         resolve(0)
-      }, 7500);
+      }, 6000);
     })
   }
 }

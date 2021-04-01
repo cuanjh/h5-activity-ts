@@ -1,1 +1,1 @@
-export let env = "dev";
+export let env = "prod";

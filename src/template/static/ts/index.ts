@@ -10,3 +10,7 @@ function showHello(divName: string, name: string) {
 }
 
 showHello("greeting", "TypeScript5");
+
+const modal = document.querySelector('dialog');
+modal.show();
+// modal.close();

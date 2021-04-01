@@ -1,0 +1,7 @@
+{
+  "src_dir":"/Users/talkmate/Documents/gitlab/h5-activity-ts/dist/",
+  "key_prefix":"operate/activities/html/groupClock5/",
+  "bucket":"mobilestatic",
+  "overwrite":true,
+  "rescan_local":true
+}

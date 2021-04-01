@@ -10,5 +10,5 @@ export const config = {
   verify: getUrlParam('verify'),
   price: getUrlParam('price'),
   appSecret: isDev ? 'E6DAC3DC3514681FC922ECE1B0CF06EB' : '5EAE76C6323C85D2E35D4817020D84C9',
-  apiDomain: isDev ? 'http://dev.api.talkmate.com' : 'https://api.talkmate.com'
+  apiDomain: isDev ? 'http://dev.api.talkmate.com' : 'https://eu-api.talkmate.com/'
 }

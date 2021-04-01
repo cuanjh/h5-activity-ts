@@ -47,7 +47,7 @@ class Activity {
     // 二次分享处理，由于测试环境域名含有端口号，测试无效
     getWXToken({
       title: `${this.nickname}邀你一起领取${this.price}元全球说会员PLUS`,
-      desc: '邀请好友注册全球说，得会员大奖'
+      desc: '邀请好友注册全球说，得会员大礼'
     })
     // 初始化事件
     this.initEvent();

@@ -209,7 +209,6 @@ class Activity {
         break;
       default:
         desc = iterator['title_en']
-        desc = desc.replace('$', '$<br/>')
         break;
     }
     return desc;
@@ -280,6 +279,7 @@ class Activity {
   async initRewardInfo() {
     let res = await this.getRewardList();
     console.log(res);
+    if (!res['recordsList']) return
     let pTag = '';
     for (const iterator of res['recordsList']) {
       pTag += `

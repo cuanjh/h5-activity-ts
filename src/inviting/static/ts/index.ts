@@ -149,24 +149,31 @@ class Activity {
   countDown() {
     let endTime = new Date(this.endYear, this.endMonth - 1, this.endDay + 1).getTime()
     let diff = endTime - (new Date()).getTime()
-    // 天数
-    let days = Math.floor(diff / (24 * 3600 * 1000))
-    // 小时
-    let leave1 = diff % (24 * 3600 * 1000)
-    let hours = Math.floor(leave1/(3600 * 1000));
-    // 分钟
-    let leave2 = leave1 % (3600 * 1000)
-    let minutes = Math.floor(leave2/(60 * 1000));
-    // 秒
-    let leave3 = leave2 % (60 * 1000)
-    let seconds = Math.floor(leave3/1000);
-    this.eleDay.innerHTML = `${days}天`
-    this.eleHour.innerHTML = hours > 9 ? hours : '0' + hours
-    this.eleMinute.innerHTML = minutes > 9 ? minutes : '0' + minutes
-    this.eleSecond.innerHTML = seconds > 9 ? seconds : '0' + seconds
-    setTimeout(() => {
-      this.countDown();
-    }, 1000);
+    if (diff > 0) {
+      // 天数
+      let days = Math.floor(diff / (24 * 3600 * 1000))
+      // 小时
+      let leave1 = diff % (24 * 3600 * 1000)
+      let hours = Math.floor(leave1/(3600 * 1000));
+      // 分钟
+      let leave2 = leave1 % (3600 * 1000)
+      let minutes = Math.floor(leave2/(60 * 1000));
+      // 秒
+      let leave3 = leave2 % (60 * 1000)
+      let seconds = Math.floor(leave3/1000);
+      this.eleDay.innerHTML = `${days}天`
+      this.eleHour.innerHTML = hours > 9 ? hours : '0' + hours
+      this.eleMinute.innerHTML = minutes > 9 ? minutes : '0' + minutes
+      this.eleSecond.innerHTML = seconds > 9 ? seconds : '0' + seconds
+      setTimeout(() => {
+        this.countDown();
+      }, 1000);
+    } else {
+      this.eleDay.innerHTML = `0天`
+      this.eleHour.innerHTML = '00'
+      this.eleMinute.innerHTML = '00'
+      this.eleSecond.innerHTML = '00'
+    }
   }
 
   // 立即邀请分享
@@ -174,7 +181,7 @@ class Activity {
     console.log('share');
     const shareConfig = {
       title: `${this.userInfo['nickname']}邀你一起领取${this.price}元全球说会员PLUS`,
-      digest: '邀请好友注册全球说，得会员大奖',
+      digest: '邀请好友注册全球说，得会员大礼',
       thumbnail: config.talkmateLogo,
       url: `${config.shareUrl}?device_id=${this.deviceId}&user_id=${this.userId}&nickname=${encodeURIComponent(this.userInfo['nickname'])}&price=${this.price}&timestamp=${(new Date()).getTime()}`,
       isLogin: 1

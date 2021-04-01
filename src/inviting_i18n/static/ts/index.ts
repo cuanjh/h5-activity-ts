@@ -25,8 +25,8 @@ class Activity {
     this.userId = config.userId ? config.userId : '5ed9a7d13f34183fb701a452'
     this.price = config.price ? parseInt(config.price) : 199.99;
     this.endYear = 2021;
-    this.endMonth = 3;
-    this.endDay = 25;
+    this.endMonth = 5;
+    this.endDay = 1;
     this.eleHtml = document.querySelector('html');
     this.eleTitleWrap = document.querySelector('.title-wrap');
     this.elePrice = document.querySelector('.price');
@@ -130,7 +130,7 @@ class Activity {
     }).then(res => {
       this.eleForm.classList.remove('show');
       setTimeout(() => {
-        this.eleSuccessfulDesc.innerHTML = `Remind your friend to check email and download Talkmate App. Enter activation key, each of you will get $${this.price} ${this.cardType(this.price)} VIP plus card.`
+        this.eleSuccessfulDesc.innerHTML = `Remind your friend to check email and download Talkmate App. Each of you will get $${this.price} ${this.cardType(this.price)} VIP plus card.`
         this.eleSendSuccessful.classList.add('show');
       }, 100);
     }).catch(errCode => {
@@ -219,7 +219,7 @@ class Activity {
       <div class="list">
         <div class="item">
           <i></i>
-          <span>Closing date: ${this.formateMonth(this.endMonth)} ${this.endDay}th, ${this.endYear}.</span>
+          <span>Closing date: ${this.formateMonth(this.endMonth)} ${this.endDay}st, ${this.endYear}.</span>
         </div>
         <div class="item">
           <i></i>
@@ -238,24 +238,31 @@ class Activity {
   countDown() {
     let endTime = new Date(this.endYear, this.endMonth - 1, this.endDay + 1).getTime()
     let diff = endTime - (new Date()).getTime()
-    // 天数
-    let days = Math.floor(diff / (24 * 3600 * 1000))
-    // 小时
-    let leave1 = diff % (24 * 3600 * 1000)
-    let hours = Math.floor(leave1/(3600 * 1000));
-    // 分钟
-    let leave2 = leave1 % (3600 * 1000)
-    let minutes = Math.floor(leave2/(60 * 1000));
-    // 秒
-    let leave3 = leave2 % (60 * 1000)
-    let seconds = Math.floor(leave3/1000);
-    this.eleDay.innerHTML = days > 1 ? `${days} days` : `${days} day`;
-    this.eleHour.innerHTML = hours > 9 ? hours.toString() : '0' + hours;
-    this.eleMinute.innerHTML = minutes > 9 ? minutes.toString() : '0' + minutes;
-    this.eleSecond.innerHTML = seconds > 9 ? seconds.toString() : '0' + seconds;
-    setTimeout(() => {
-      this.countDown();
-    }, 1000);
+    if (diff > 0) {
+      // 天数
+      let days = Math.floor(diff / (24 * 3600 * 1000))
+      // 小时
+      let leave1 = diff % (24 * 3600 * 1000)
+      let hours = Math.floor(leave1/(3600 * 1000));
+      // 分钟
+      let leave2 = leave1 % (3600 * 1000)
+      let minutes = Math.floor(leave2/(60 * 1000));
+      // 秒
+      let leave3 = leave2 % (60 * 1000)
+      let seconds = Math.floor(leave3/1000);
+      this.eleDay.innerHTML = days > 1 ? `${days} days` : `${days} day`;
+      this.eleHour.innerHTML = hours > 9 ? hours.toString() : '0' + hours;
+      this.eleMinute.innerHTML = minutes > 9 ? minutes.toString() : '0' + minutes;
+      this.eleSecond.innerHTML = seconds > 9 ? seconds.toString() : '0' + seconds;
+      setTimeout(() => {
+        this.countDown();
+      }, 1000);
+    } else {
+      this.eleDay.innerHTML = `0 day`
+      this.eleHour.innerHTML = '00'
+      this.eleMinute.innerHTML = '00'
+      this.eleSecond.innerHTML = '00'
+    }
   }
 
   // 显示提示窗
