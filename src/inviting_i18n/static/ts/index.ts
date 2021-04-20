@@ -23,6 +23,7 @@ class Activity {
   constructor() {
     this.deviceId = config.deviceId ? config.deviceId : '3394eda119c4450fad3f569ca3fdc4fb'
     this.userId = config.userId ? config.userId : '5ed9a7d13f34183fb701a452'
+    this.verify = config.verify ? config.verify :'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJUYWxrbWF0ZSIsImV4cCI6MTYyMzMxMTY4MiwianRpIjoiNWVkOWE3ZDEzZjM0MTgzZmI3MDFhNDUyIn0._Mra9WMQ0sRO7-9mVuSuna3dPjWFrB621rgP3o1ULfU'
     this.price = config.price ? parseInt(config.price) : 199.99;
     this.endYear = 2021;
     this.endMonth = 5;
