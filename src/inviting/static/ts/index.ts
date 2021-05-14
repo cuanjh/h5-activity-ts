@@ -22,7 +22,7 @@ class Activity {
     this.userInfo = {};
     this.price = config.price ? parseInt(config.price) : 198;
     this.endYear = 2021;
-    this.endMonth = 3;
+    this.endMonth = 6;
     this.endDay = 25;
     this.eleTitleWrap = document.querySelector('.title-wrap');
     this.elePrice = document.querySelector('.price');
