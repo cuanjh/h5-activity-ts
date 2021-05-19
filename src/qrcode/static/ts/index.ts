@@ -8,7 +8,7 @@ class Activity {
   }
   async init() {
     // 1、地理位置信息
-    const res1 = await getJSONP('https://api.map.baidu.com/location/ip?v=2.0&ak=8oTo926ag3Q4L76hGg3QIYeFieYphvOC')
+    // const res1 = await getJSONP('https://api.map.baidu.com/location/ip?v=2.0&ak=8oTo926ag3Q4L76hGg3QIYeFieYphvOC')
     // 2、请求服务端接口数据
     const res2 = await request({
       type: 'jsonp',
@@ -16,7 +16,8 @@ class Activity {
       data: {
         uuid: this.uuid,
         userAgent: navigator.userAgent,
-        addressContent: JSON.stringify(res1['content'])
+        // addressContent: JSON.stringify(res1['content'])
+        addressContent: ''
       }
     })
     // 3、判断跳转路径
